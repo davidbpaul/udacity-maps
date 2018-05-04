@@ -1,0 +1,12 @@
+.map{
+  background-color: green;
+  width: 100%;
+  position: fixed;
+  top:52px;
+  bottom: 0;
+  border-bottom: none;
+}
+#googleMap{
+  height: 97%;
+  width: 100%;
+}

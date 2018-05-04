@@ -1,0 +1,25 @@
+.navigation{
+  width:100%;
+  padding: 0;
+  margin:0;
+  background-color: #1d272f;
+}
+.navBar{
+  position: relative;
+  width:100%;
+  padding: 0;
+  margin:0;
+  background-color: #1d272f;
+}
+.navBarHeader{
+  width:100%;
+  margin:0;
+  position: relative;
+}
+.navbar-default .navbar-brand{
+  color: #1fb4e2;
+}
+.navbar-default .navbar-brand:hover{
+  color: #fefefe;
+  cursor: pointer;
+}
