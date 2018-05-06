@@ -98,11 +98,11 @@ class Map extends Component {
   addMarkers(){
     const self = this;
     this.clearOverlays();
-    this.props.filtered.forEach( location => { // iterate through locations saved in state
-      const marker = new this.props.google.maps.Marker({ // creates a new Google maps Marker object.
-        position: {lat: location.location.lat, lng: location.location.lng}, // sets position of marker to specified location
-        map: this.map, // sets markers to appear on the map we just created on line 35
-        title: location.name, // the title of the marker is set to the name of the location
+    this.props.filtered.forEach( location => { 
+      const marker = new this.props.google.maps.Marker({
+        position: {lat: location.location.lat, lng: location.location.lng},
+        map: this.map,
+        title: location.name,
         verified: location.verified,
         location: location.location.address
       });
