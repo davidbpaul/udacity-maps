@@ -2,6 +2,10 @@
   "name": "maps",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "react-scripts": "0.7.0",
+    "sw-precache": "^4.2.2"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "google-maps-react": "^2.0.2",

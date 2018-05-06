@@ -16,7 +16,7 @@ class Navigation extends Component {
         <Navbar className="navBar">
           <Navbar.Header className="navBarHeader">
             <Navbar.Brand>
-               <Glyphicon onClick={this.props.handleToggle} glyph="align-justify"/>
+               <Glyphicon tabIndex="1" aria-label="Open Search" aria-describedby="closed" onKeyUp={this.props.handleToggle} onClick={this.props.handleToggle} glyph="align-justify"/>
             </Navbar.Brand>
           </Navbar.Header>
         </Navbar>

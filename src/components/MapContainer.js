@@ -14,7 +14,7 @@ export class MapContainer extends Component {
   render() {
     return (
       <div className="mapContainer">
-        <Map setMenu={this.props.setMenu} menuItem={this.props.menuItem} filtered={this.props.filtered} getSearch={this.props.getSearch} google={this.props.google}>
+        <Map aria-role="application" setMenu={this.props.setMenu} menuItem={this.props.menuItem} filtered={this.props.filtered} getSearch={this.props.getSearch} google={this.props.google}>
         </Map>
       </div>
     )

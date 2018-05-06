@@ -27,6 +27,7 @@ class App extends Component {
         {/* Search */}
         <Form id="filterForm" inline onSubmit={ this.placeSearch }>
           <FormControl
+            tabIndex="2"
             id="search"
             type="text"
             placeholder="Search by title or author"
@@ -41,7 +42,7 @@ class App extends Component {
             <h3>Search returned { places.length } schools </h3>
             <ListGroup id="list">
               {places.map((item, i) => (
-                <ListGroupItem active={item.name === this.props.menuItem} value={item.name} onClick={this.menuClick} key={i}>{item.name}</ListGroupItem>
+                <ListGroupItem aria-label={item.name} tabIndex={i + 3} active={item.name === this.props.menuItem} value={item.name} onClick={this.menuClick} key={i}>{item.name}</ListGroupItem>
               ))}
             </ListGroup>
           </div>
