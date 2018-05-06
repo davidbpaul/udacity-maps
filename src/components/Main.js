@@ -14,7 +14,7 @@ class Main extends Component {
         {/* NavBar */}
         <Navigation handleToggle={this.props.handleToggle} />
         {/* Content */}
-        <MapContainer  getLocations={this.props.getLocations} />
+        <MapContainer  setMenu={this.props.setMenu} menuItem={this.props.menuItem} filtered={this.props.filtered} getSearch={this.props.getSearch} />
       </div>
     );
   }

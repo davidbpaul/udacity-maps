@@ -4,36 +4,28 @@ import '../css/SearchBar.css';
 import {ControlLabel, Form, FormGroup, ListGroup, ListGroupItem, FormControl, Button} from 'react-bootstrap';
 class App extends Component {
   state = {
-    query: '',
-    places: this.props.getLocations(),
-    filtered:[],
+    query: ''
   }
 
   componentWillMount() {
-    this.getSearch();
+    this.props.getSearch(this.state.query);
   }
   getInput = (e) => {
     this.setState({ query: e.target.value})
   }
-  getSearch = (e=false) => {
-
-    const filtered = this.state.places.filter(item => item.name.match(this.state.query));
-    if(this.state.query == ""){
-      this.setState({filtered: this.state.places});
-    }else{
-      this.setState({filtered: filtered});
-    }
-    if(e){
-      this.props.getPlaces(this.state.filtered);
-      e.preventDefault();
-    }
+  placeSearch = (e) => {
+    this.props.getSearch(this.state.query , e);
   }
+  menuClick = (e) =>{
+    this.props.setMenu(e.target.value);
+  }
+
   render() {
-    const places = this.state.filtered;
+    const places = this.props.filtered;
     return (
       <div className="SearchBar">
         {/* Search */}
-        <Form id="filterForm" inline onSubmit={ this.getSearch }>
+        <Form id="filterForm" inline onSubmit={ this.placeSearch }>
           <FormControl
             id="search"
             type="text"
@@ -45,18 +37,18 @@ class App extends Component {
         </Form>
         {/* Results */}
         { places.length >= 1 && (
-          <div>
-            <h3>Search returned { places.length } books </h3>
-            <ListGroup>
+          <div className="ListOuter">
+            <h3>Search returned { places.length } schools </h3>
+            <ListGroup id="list">
               {places.map((item, i) => (
-                <ListGroupItem key={i}>{item.name}</ListGroupItem>
+                <ListGroupItem active={item.name === this.props.menuItem} value={item.name} onClick={this.menuClick} key={i}>{item.name}</ListGroupItem>
               ))}
             </ListGroup>
           </div>
         )}
         { places.length < 1 && (
           <div>
-            <h4>No Books Found. Please try again!</h4>
+            <h4>No school Found. Please try again!</h4>
           </div>
         )}
       </div>

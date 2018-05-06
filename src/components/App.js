@@ -13,17 +13,20 @@ class App extends Component {
     super(props);
     this.state = {
       open: false,
-      locations: [{ name: "New York County Supreme Court", location: {lat: 40.7143033, lng: -74.0036919} },
-                  { name: "Queens County Supreme Court", location: {lat: 40.7046946, lng: -73.8091145} },
-                  { name: "Kings County Supreme Court", location: {lat: 40.6940226, lng: -73.9890967} },
-                  { name: "Richmond County Supreme Court", location: {lat: 40.6412336, lng: -74.0768597} },
-                  { name: "Bronx Supreme Court", location: {lat: 40.8262388, lng: -73.9235238} }
-      ]
+      locations: [],
+      filtered:[],
+      menuItem: null,
+      loading: true
     }
-    this.getLocations=this.getLocations.bind(this);
-    this.getPlaces=this.getPlaces.bind(this);
   }
-
+  componentDidMount() {
+    setTimeout(() => this.setState({ loading: false }), 1500); // simulates an async action, and hides the spinner
+  }
+  componentWillMount(){
+    data.getFSLocations({lat: 40.7143033, lng: -74.0036919}).then(locations =>{
+      this.setState({locations: locations})
+    })
+  }
   handleToggle = () => {
     if(this.state.open === true){
       this.hidden();
@@ -56,25 +59,38 @@ class App extends Component {
     main.classList.add("col-md-8");
     main.classList.add("col-xs-4");
   }
-  //return array of locations
-  getLocations(){
-    return this.state.locations;
-  }
 
-  getPlaces(markers){
-    this.setState({locations: markers});
-  }
 
+  //get search and create filter state
+  getSearch = (query, e=false) => {
+    console.log("API ", this.state.locations)
+    const filtered = this.state.locations.filter(item => item.name.match(`^${query}.*$`));
+    if(query == ""){
+      this.setState({filtered: this.state.locations});
+    }else{
+      this.setState({filtered: filtered});
+    }
+    if(e){
+      e.preventDefault();
+    }
+  }
+  setMenu = (val) =>{
+    this.setState({menuItem: val});
+  }
   render() {
+    if(this.state.loading) {
+     return null;
+    }
+
     return (
       <div className="App">
         <Grid bsClass="container-fluid" className="container">
           <Row className="row">
             <Col id="sideBar" hidden bsClass="col" className="shorten">
-              <Sidebar getPlaces={this.getPlaces} getLocations={this.getLocations} />
+              <Sidebar setMenu={this.setMenu} menuItem={this.state.menuItem} filtered={this.state.filtered} getSearch={this.getSearch}/>
             </Col>
             <Col id="main" xs={12} bsClass="col" className="shorten">
-              <Main getLocations={this.getLocations} handleToggle={this.handleToggle}/>
+              <Main setMenu={this.setMenu} menuItem={this.state.menuItem} filtered={this.state.filtered} getSearch={this.getSearch} handleToggle={this.handleToggle}/>
             </Col>
           </Row>
         </Grid>

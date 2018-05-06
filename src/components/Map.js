@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import logo from '../assets/four.png'
 
 import '../css/Map.css';
 import {Marker} from 'google-maps-react'
@@ -12,11 +13,11 @@ class Map extends Component {
     onMove: React.PropTypes.func
   }
   static defaultProps = {
-    zoom: 10,
+    zoom: 13,
     // San Francisco, by default
     initialCenter: {
-      lat: 45.01809,
-      lng: -74.72815
+      lat: 40.7143033,
+      lng: -74.0036919
     },
     centerAroundCurrentLocation: false,
     onMove: function() {} // default prop
@@ -30,17 +31,16 @@ class Map extends Component {
         lat: lat,
         lng: lng
       },
-      locations: this.props.getLocations(lat, lng),
       markersArray: []
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.google !== this.props.google) {
-      this.loadMap();
-    }
-    if (prevState.currentLocation !== this.state.currentLocation) {
-     this.recenterMap();
+    this.addMarkers();
+    for(this.state.marker of this.state.markersArray){
+      if(this.state.marker.title === this.props.menuItem){
+        this.openInfoWindow(this.state.marker);
+      }
     }
   }
   componentDidMount() {
@@ -53,7 +53,7 @@ class Map extends Component {
                         lat: coords.latitude,
                         lng: coords.longitude
                     },
-                    locations: this.props.getLocations(coords.latitude, coords.longitude)
+                    locations: this.props.filtered
                 })
 
             })
@@ -61,7 +61,6 @@ class Map extends Component {
     }
     this.loadMap();
   }
-
   clearOverlays() {
     for (var i = 0; i < this.state.markersArray.length; i++ ) {
       this.state.markersArray[i].setMap(null);
@@ -99,15 +98,17 @@ class Map extends Component {
   addMarkers(){
     const self = this;
     this.clearOverlays();
-    this.state.locations.forEach( location => { // iterate through locations saved in state
+    this.props.filtered.forEach( location => { // iterate through locations saved in state
       const marker = new this.props.google.maps.Marker({ // creates a new Google maps Marker object.
         position: {lat: location.location.lat, lng: location.location.lng}, // sets position of marker to specified location
         map: this.map, // sets markers to appear on the map we just created on line 35
-        title: location.name // the title of the marker is set to the name of the location
+        title: location.name, // the title of the marker is set to the name of the location
+        verified: location.verified,
+        location: location.location.address
       });
       this.state.markersArray.push(marker);
       marker.addListener("click", function() {
-        self.openInfoWindow(marker);
+        self.props.setMenu(marker.title);
         marker.setAnimation(window.google.maps.Animation.BOUNCE);
         setTimeout(function() {
           marker.setAnimation(null);
@@ -116,14 +117,23 @@ class Map extends Component {
     })
   }
   openInfoWindow(marker){
-    var InfoWindow = new window.google.maps.InfoWindow({});
 
+    var InfoWindow = new window.google.maps.InfoWindow({});
+    const self = this;
     window.google.maps.event.addListener(InfoWindow, "closeclick", function() {
       InfoWindow.close(this.map, marker);
+      self.props.setMenu(null);
     });
-    InfoWindow.setContent(marker.title);
+    InfoWindow.setContent(
+      "<h6>" + marker.title + "<br /></h6>" +
+      "<p>verified: " + marker.verified + "<br />" + "address:" + marker.location + "</p>"
+      + "<hr />" + "<img style='width:100px; height:50px;' src='" + logo + "' alt='image in infowindow'>"
+
+    );
     InfoWindow.open(this.map, marker);
   }
+
+
   handleEvent(evtName) {
     const camelize = function(str) {
       return str.split(' ').map(function(word){

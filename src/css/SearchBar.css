@@ -12,6 +12,19 @@
   padding: 0;
   margin-bottom: 20px;
 }
+#list{
+  overflow: auto;
+  position: relative;
+  height:99%;
+}
+.SearchBar{
+  height: 99%;
+  position: relative;
+}
+.ListOuter{
+  height: 86%;
+  position: relative;
+}
 @media only screen and (max-width: 780px) {
   #search{
     width: 90%;

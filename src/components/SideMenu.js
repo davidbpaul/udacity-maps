@@ -15,9 +15,9 @@ class Sidebar extends Component {
 
         </div>
         <PageHeader className="sideHeader">
-          <small className="sideHeader">David Locations</small>
+          <small className="sideHeader">NYC Schools</small>
         </PageHeader>
-        <SearchBar   getPlaces={this.props.getPlaces} getLocations={this.props.getLocations} />
+        <SearchBar  setMenu={this.props.setMenu} menuItem={this.props.menuItem} filtered={this.props.filtered} getSearch={this.props.getSearch} getLocations={this.props.getLocations} />
 
       </div>
     );
