@@ -48,7 +48,7 @@ After creation, your project should look like this:
     yarn start
 
 ##### Start Project
-  open [In Browser](localhost:3000) : 'localhost:3000'
+  open [In Browser]('localhost:3000') : localhost:3000
 
 
 ### API
