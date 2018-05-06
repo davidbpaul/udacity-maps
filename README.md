@@ -42,7 +42,7 @@ York City. Built with React.JS
 After creation, your project should look like this:
 
 ##### Install Dependencies
-  npm install
+    npm install
 
 ##### Start Project
     yarn start
