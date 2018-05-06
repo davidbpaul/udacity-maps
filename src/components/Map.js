@@ -98,7 +98,7 @@ class Map extends Component {
   addMarkers(){
     const self = this;
     this.clearOverlays();
-    this.props.filtered.forEach( location => { 
+    this.props.filtered.forEach( location => {
       const marker = new this.props.google.maps.Marker({
         position: {lat: location.location.lat, lng: location.location.lng},
         map: this.map,
@@ -171,7 +171,7 @@ class Map extends Component {
   render() {
     return (
       <div id="googleMap" ref='map'>
-        Loading map...
+        <h3 id="errorApi"> Could Not Load API </h3>
       </div>
     );
   }
